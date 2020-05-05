@@ -31,7 +31,7 @@ LinxESP32WifiListener::LinxESP32WifiListener()
   wifiState = sINIT;
   LinxWifiConnectStatus = WL_IDLE_STATUS;
   LinxWifiTimeout = 2000;
-  unsigned char wifiServerFail = 0;
+  //unsigned char wifiServerFail = 0;
 
 }
 
@@ -161,12 +161,12 @@ int LinxESP32WifiListener::Init()
   const char * szPassPhrase;
   szPassPhrase = LinxWifiPw;
 
-  char key[64];
+  //char key[64];
 
-  for (int i = 0; i < 64; i++)
-  {
-    key[i] = LinxWifiPw[i];
-  }
+  //for (int i = 0; i < 64; i++)
+  //{
+  //  key[i] = LinxWifiPw[i];
+  //}
 
   switch (LinxWifiSecurity)
   {
@@ -214,6 +214,7 @@ int LinxESP32WifiListener::Init()
   }
 
   PrintWifiInfo();
+  return L_OK;
 }
 
 

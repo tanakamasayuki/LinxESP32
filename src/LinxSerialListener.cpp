@@ -48,6 +48,8 @@ int LinxSerialListener::Start(LinxDevice* linxDev, unsigned char uartChan)
   LinxDev->UartOpen(ListenerChan, 9600, &acutalBaud);
 
   State = CONNECTED;
+
+  return 0;
 }
 
 int LinxSerialListener::Connected()
@@ -134,9 +136,9 @@ int LinxSerialListener::Connected()
     }
     else
     {
-#ifdef LINX_DEVICE_FAMILY=4 | LINX_DEVICE_FAMILY=6
-      LinxDev->DelayMs(30);
-#endif
+      //#ifdef LINX_DEVICE_FAMILY=4 | LINX_DEVICE_FAMILY=6
+      //LinxDev->DelayMs(30);
+      //#endif
     }
   }
 
@@ -174,7 +176,14 @@ int LinxSerialListener::CheckForCommands()
       LinxDev->DebugPrintln("State - Exit");
       Exit();
       break;
+    case LISTENING:
+    case AVAILABLE:
+    case ACCEPT:
+      break;
+  
   }
+
+  return 0;
 }
 
 // Pre Instantiate Object

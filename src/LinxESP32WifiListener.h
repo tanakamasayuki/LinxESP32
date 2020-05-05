@@ -51,7 +51,7 @@ class LinxESP32WifiListener : public LinxListener
     unsigned char LinxWifiPwSize;
     char LinxWifiPw[64];
 
-    unsigned char wifiServerFail;
+    //unsigned char wifiServerFail;
 
     unsigned int LinxWifiStartTime;
     unsigned int LinxWifiTimeout;
