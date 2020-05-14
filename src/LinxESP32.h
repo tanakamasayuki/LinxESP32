@@ -19,7 +19,7 @@
 
 #define NUM_AI_CHANS 40
 #define AI_RES_BITS 12
-#define AI_REFV 1000000
+#define AI_REFV 3300000
 #define NUM_AI_INT_REFS 0
 
 #define NUM_DIGITAL_CHANS 40

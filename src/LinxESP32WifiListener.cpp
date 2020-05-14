@@ -408,7 +408,7 @@ int LinxESP32WifiListener::CheckForCommands()
   }
 
   //Every Iteration Run Periodic Network Tasks
-  delay(0);
+  delay(1);
 
   return L_OK;
 }
