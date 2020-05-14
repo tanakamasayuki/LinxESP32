@@ -17,7 +17,7 @@
 ****************************************************************************************/
 #define DEVICE_NAME_LEN 8
 
-#define NUM_AI_CHANS 1
+#define NUM_AI_CHANS 40
 #define AI_RES_BITS 10
 #define AI_REFV 1000000
 #define NUM_AI_INT_REFS 0
