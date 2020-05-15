@@ -16,7 +16,7 @@
 #define DEBUG_ENABLED 0
 #define NUM_I2C_CHANS 1
 #define NUM_SPI_CHANS 1
-#define NUM_UART_CHANS 2
+#define NUM_UART_CHANS 4
 #define DEVICE_FAMILY 7
 
 #define LINXWIFI

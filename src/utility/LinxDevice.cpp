@@ -55,7 +55,7 @@ void LinxDevice::EnableDebug(unsigned char channel)
 
 void LinxDevice::DelayMs(unsigned long ms)
 {
-
+  delay(ms);
 }
 
 void LinxDevice::DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer)

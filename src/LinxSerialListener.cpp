@@ -139,6 +139,7 @@ int LinxSerialListener::Connected()
       //#ifdef LINX_DEVICE_FAMILY=4 | LINX_DEVICE_FAMILY=6
       //LinxDev->DelayMs(30);
       //#endif
+      LinxDev->DelayMs(1);
     }
   }
 

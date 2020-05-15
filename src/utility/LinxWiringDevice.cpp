@@ -37,10 +37,13 @@
 #include <Wire.h>
 #include <EEPROM.h>
 #include <ESP32Servo.h>
+#include <BluetoothSerial.h>
 
 /****************************************************************************************
 **  Variables
 ****************************************************************************************/
+BluetoothSerial SerialBT;
+bool initSerialBT = false;
 
 /****************************************************************************************
 **  Constructors / Destructors
@@ -552,7 +555,21 @@ int LinxWiringDevice::UartOpen(unsigned char channel, unsigned long baudRate, un
   if (channel == 3)
   {
 #if NUM_UART_CHANS > 3
-    Serial3.begin(*(UartSupportedSpeeds + index));
+    if (initSerialBT == false)
+    {
+      uint64_t chipid = ESP.getEfuseMac();
+      char chipname[32];
+      sprintf( chipname, "LinxESP32_%02X%02X%02X%02X%02X%02X"
+               , (uint8_t)((chipid >> (8 * 0)) & 0xFF)
+               , (uint8_t)((chipid >> (8 * 1)) & 0xFF)
+               , (uint8_t)((chipid >> (8 * 2)) & 0xFF)
+               , (uint8_t)((chipid >> (8 * 3)) & 0xFF)
+               , (uint8_t)((chipid >> (8 * 4)) & 0xFF)
+               , (uint8_t)((chipid >> (8 * 5)) & 0xFF)
+             );
+      SerialBT.begin(chipname);
+      initSerialBT = true;
+    }
     *actualBaud = *(UartSupportedSpeeds + index);
 #endif
   }
@@ -590,7 +607,7 @@ int LinxWiringDevice::UartGetBytesAvailable(unsigned char channel, unsigned char
   if (channel == 3)
   {
 #if NUM_UART_CHANS > 3
-    *numBytes = Serial3.available();
+    *numBytes = SerialBT.available();
 #endif
   }
 
@@ -622,7 +639,7 @@ int LinxWiringDevice::UartRead(unsigned char channel, unsigned char numBytes, un
   else if (channel == 3)
   {
 #if NUM_UART_CHANS > 3
-    *numBytesRead = Serial3.readBytes((char*)recBuffer, numBytes);
+    *numBytesRead = SerialBT.readBytes((char*)recBuffer, numBytes);
 #endif
   }
 
@@ -659,7 +676,7 @@ int LinxWiringDevice::UartRead(unsigned char channel, unsigned char numBytes, un
     else if (channel == 3)
     {
 #if NUM_UART_CHANS > 3
-      data = Serial3.read();
+      data = SerialBT.read();
 #endif
     }
 
@@ -703,7 +720,7 @@ int LinxWiringDevice::UartWrite(unsigned char channel, unsigned char numBytes, u
   if (channel == 3)
   {
 #if NUM_UART_CHANS > 3
-    Serial3.write(sendBuffer, numBytes);
+    SerialBT.write(sendBuffer, numBytes);
 #endif
   }
 
@@ -733,7 +750,7 @@ int LinxWiringDevice::UartClose(unsigned char channel)
   if (channel == 3)
   {
 #if NUM_UART_CHANS > 3
-    Serial3.end();
+    //SerialBT.end();
 #endif
   }
   return L_OK;
