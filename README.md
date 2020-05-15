@@ -9,7 +9,8 @@ ESP32 information can be used in LabVIEW via Wi-Fi or Serial.
 
 ## Sample code
 
-```
+### Wi-fi
+```c
 #include <SPI.h>
 #include <Wire.h>
 #include <EEPROM.h>
@@ -29,6 +30,30 @@ void setup()
 void loop()
 {
   LinxWifiConnection.CheckForCommands();
+  delay(1);
+}
+```
+
+### BluetoothSerial
+```c
+#include <SPI.h>
+#include <Wire.h>
+#include <EEPROM.h>
+#include <ESP32Servo.h>
+#include <LinxESP32.h>
+#include <LinxSerialListener.h>
+
+LinxESP32* LinxDevice;
+
+void setup()
+{
+  LinxDevice = new LinxESP32();
+  LinxSerialConnection.Start(LinxDevice, 3);
+}
+
+void loop()
+{
+  LinxSerialConnection.CheckForCommands();
   delay(1);
 }
 ```
