@@ -11,11 +11,6 @@ ESP32 information can be used in LabVIEW via Wi-Fi or Serial.
 
 ### Wi-fi
 ```c
-#include <SPI.h>
-#include <Wire.h>
-#include <EEPROM.h>
-#include <ESP32Servo.h>
-#include <WiFi.h>
 #include <LinxESP32.h>
 #include <LinxESP32WifiListener.h>
 
@@ -36,10 +31,6 @@ void loop()
 
 ### BluetoothSerial
 ```c
-#include <SPI.h>
-#include <Wire.h>
-#include <EEPROM.h>
-#include <ESP32Servo.h>
 #include <LinxESP32.h>
 #include <LinxSerialListener.h>
 

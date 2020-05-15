@@ -9,12 +9,6 @@
 **  BSD2 license.
 ****************************************************************************************/
 
-//Include All Peripheral Libraries Used By LINX
-#include <SPI.h>
-#include <Wire.h>
-#include <EEPROM.h>
-#include <ESP32Servo.h>
-
 //Include Device Specific Header From Sketch>>Import Library (In This Case LinxESP32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)
 #include <LinxESP32.h>
