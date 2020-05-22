@@ -36,7 +36,7 @@ const int LinxESP32::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 const unsigned char LinxESP32::m_DigitalChans[NUM_DIGITAL_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39};
 
 //PWM
-const unsigned char LinxESP32::m_PwmChans[NUM_PWM_CHANS] = {0, 1, 2, 3, 4, 5, 12, 13, 14, 15, 16};
+const unsigned char LinxESP32::m_PwmChans[NUM_PWM_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 
 //QE
 //None
@@ -55,7 +55,7 @@ unsigned char LinxESP32::m_UartChans[NUM_UART_CHANS] = {0, 1, 2, 3};
 unsigned long LinxESP32::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200};
 
 //SERVO
-Servo* LinxESP32::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};			//Initialize To Null Pointers
+const unsigned char LinxESP32::m_ServoChans[NUM_SERVO_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 
 /****************************************************************************************
 **  Constructors /  Destructor
@@ -130,8 +130,7 @@ LinxESP32::LinxESP32()
 
   //SERVO
   NumServoChans = NUM_SERVO_CHANS;
-  ServoChans = m_DigitalChans;
-  Servos = m_Servos;
+  ServoChans = m_ServoChans;
 
   //If Debuging Is Enabled Call EnableDebug()
 #if DEBUG_ENABLED >= 0

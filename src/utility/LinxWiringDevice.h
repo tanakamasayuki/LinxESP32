@@ -16,8 +16,6 @@
 **  Includes
 ****************************************************************************************/
 #include "LinxDevice.h"
-#include <ESP32Servo.h>
-
 
 /****************************************************************************************
 **  Variables
@@ -45,7 +43,6 @@ class LinxWiringDevice : public LinxDevice
 
     unsigned char* I2cRefCount;						//Number Opens - Closes On I2C Channel
 
-    Servo** Servos;										//Array Servo Pointers
     /****************************************************************************************
     **  Constructors
     ****************************************************************************************/

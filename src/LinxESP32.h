@@ -24,7 +24,7 @@
 
 #define NUM_DIGITAL_CHANS 40
 
-#define NUM_PWM_CHANS 11
+#define NUM_PWM_CHANS 16
 
 #define NUM_SPI_CHANS 1
 #define NUM_SPI_SPEEDS 7
@@ -34,7 +34,7 @@
 #define NUM_UART_CHANS 4
 #define NUM_UART_SPEEDS 13
 
-#define NUM_SERVO_CHANS NUM_DIGITAL_CHANS
+#define NUM_SERVO_CHANS NUM_PWM_CHANS
 
 /****************************************************************************************
 **  Includes
@@ -43,6 +43,8 @@
 #include "utility/LinxDevice.h"
 #include "utility/LinxWiringDevice.h"
 //#include "utility/LinxArduino.h"
+#include <LinxESP32WifiListener.h>
+#include <LinxSerialListener.h>
 
 class LinxESP32 : public LinxWiringDevice
 {
@@ -82,7 +84,6 @@ class LinxESP32 : public LinxWiringDevice
 
     //Servo
     static const unsigned char m_ServoChans[NUM_SERVO_CHANS];
-    static Servo* m_Servos[NUM_SERVO_CHANS];
 
     /****************************************************************************************
     **  Constructors /  Destructor

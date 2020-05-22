@@ -36,7 +36,6 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <EEPROM.h>
-#include <ESP32Servo.h>
 #include <BluetoothSerial.h>
 
 /****************************************************************************************
@@ -231,19 +230,27 @@ int LinxWiringDevice::DigitalWriteSquareWave(unsigned char channel, unsigned lon
 {
   if (freq > 0)
   {
-    pinMode(channel, OUTPUT);
     if (duration > 0)
     {
-      tone(channel, freq, duration);
+        // tone(channel, freq, duration);
+        ledcWriteTone(channel, freq);
+        delay(duration);
+        ledcWriteTone(channel, 0);
     }
     else
     {
-      tone(channel, freq);
+        // tone(channel, freq);
+        ledcWriteTone(channel, freq);
+        delay(1000);
+        ledcWriteTone(channel, 0);
     }
   }
   else
   {
-    noTone(channel);
+      // noTone(channel);
+      ledcWriteTone(channel, 440);
+      delay(1000);
+      ledcWriteTone(channel, 0);
   }
 
   return L_OK;
@@ -296,8 +303,7 @@ int LinxWiringDevice::PwmSetDutyCycle(unsigned char numChans, unsigned char* cha
 {
   for (int i = 0; i < numChans; i++)
   {
-    pinMode(channels[i], OUTPUT);
-    analogWrite(channels[i], values[i]);
+    ledcWrite(channels[i], values[i]);
   }
 
   return L_OK;
@@ -762,15 +768,8 @@ int LinxWiringDevice::ServoOpen(unsigned char numChans, unsigned char* chans)
   for (int i = 0; i < numChans; i++)
   {
     unsigned char pin = chans[i];
-    if (Servos[pin] == 0)
-    {
-      //Servo Not Yet Intialized On Specified Channel, Init
-      Servos[pin] = new Servo();
-      Servos[pin]->attach(pin);
-
-      DebugPrint("Created New Servo On Channel ");
-      DebugPrintln(pin, DEC);
-    }
+    DebugPrint("Created New Servo On Channel ");
+    DebugPrintln(pin, DEC);
   }
   return L_OK;
 }
@@ -780,12 +779,16 @@ int LinxWiringDevice::ServoSetPulseWidth(unsigned char numChans, unsigned char* 
 
   for (int i = 0; i < numChans; i++)
   {
+    int width = (int)( ( pulseWidths[i] * 256.0 / 20000.0 ) + 0.5 );
 
     DebugPrint("Servo ");
-    DebugPrint((unsigned long)Servos[chans[i]], DEC);
+    DebugPrint((unsigned long)chans[i], DEC);
     DebugPrint(" : ");
     DebugPrintln(pulseWidths[i], DEC);
-    Servos[chans[i]]->writeMicroseconds(pulseWidths[i]);
+    DebugPrint("(");
+    DebugPrintln(width);
+    DebugPrint(")");
+    ledcWrite(chans[i], width);
   }
 
   return L_OK;
@@ -797,8 +800,8 @@ int LinxWiringDevice::ServoClose(unsigned char numChans, unsigned char* chans)
 {
   for (int i = 0; i < numChans; i++)
   {
-    Servos[chans[i]]->detach();
-    Servos[chans[i]] = 0;
+//    Servos[chans[i]]->detach();
+//    Servos[chans[i]] = 0;
   }
   return L_OK;
 }

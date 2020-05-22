@@ -12,7 +12,6 @@
 //Include Device Specific Header From Sketch>>Import Library (In This Case LinxESP32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxESP32WifiListener.h)
 #include <LinxESP32.h>
-#include <LinxESP32WifiListener.h>
 
 //Create A Pointer To The LINX Device Object We Instantiate In Setup()
 LinxESP32* LinxDevice;
@@ -22,6 +21,15 @@ void setup()
 {
   //Instantiate The LINX Device
   LinxDevice = new LinxESP32();
+
+  // PWM & Servo Setup
+  uint8_t pwmList[] = {};         // Max16Ch {0, 26, ...}
+  uint16_t pwmFrequency = 12000;  // LED:12000, Servo:50
+  for (int i = 0; i < sizeof(pwmList); i++) {
+    ledcSetup(i, pwmFrequency, 8);
+    pinMode(pwmList[i], OUTPUT);
+    ledcAttachPin(pwmList[i], i);
+  }
 
   //The LINX Listener Is Pre Instantiated.
   //Set SSID (Network Name), Security Type, Passphrase/Key, And Call Start With Desired Device IP and Port
