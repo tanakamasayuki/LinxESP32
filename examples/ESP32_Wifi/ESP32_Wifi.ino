@@ -31,9 +31,13 @@ void setup()
     ledcAttachPin(pwmList[i], i);
   }
 
-  //The LINX Listener Is Pre Instantiated.
-  //Set SSID (Network Name), Security Type, Passphrase/Key, And Call Start With Desired Device IP and Port
-  //If not set, it will connect with the last connection information
+  // I2C Begin ch0:Wire, ch1:Wire1
+  //Wire.begin();
+  //Wire1.begin(32, 33);
+
+  // The LINX Listener Is Pre Instantiated.
+  // Set SSID (Network Name), Security Type, Passphrase/Key, And Call Start With Desired Device IP and Port
+  // If not set, it will connect with the last connection information
   //LinxWifiConnection.SetSsid("YOUR_NETWORK_NAME");
   //LinxWifiConnection.SetSecurity(WPA2_NONE);  //NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104
   //LinxWifiConnection.SetPassphrase("PASSPHRASE");

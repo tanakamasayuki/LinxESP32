@@ -29,7 +29,7 @@
 #define NUM_SPI_CHANS 1
 #define NUM_SPI_SPEEDS 7
 
-#define NUM_I2C_CHANS 1
+#define NUM_I2C_CHANS 2
 
 #define NUM_UART_CHANS 4
 #define NUM_UART_SPEEDS 13

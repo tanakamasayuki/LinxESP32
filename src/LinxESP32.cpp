@@ -47,7 +47,7 @@ unsigned long LinxESP32::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {8000000, 400000
 int LinxESP32::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {SPI_CLOCK_DIV2, SPI_CLOCK_DIV4, SPI_CLOCK_DIV8, SPI_CLOCK_DIV16, SPI_CLOCK_DIV32, SPI_CLOCK_DIV64, SPI_CLOCK_DIV128};
 
 //I2C
-unsigned char LinxESP32::m_I2cChans[NUM_I2C_CHANS] = {0};
+unsigned char LinxESP32::m_I2cChans[NUM_I2C_CHANS] = {0, 1};
 unsigned char LinxESP32::m_I2cRefCount[NUM_I2C_CHANS];
 
 //UART

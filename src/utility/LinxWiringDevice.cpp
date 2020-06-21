@@ -411,12 +411,12 @@ int LinxWiringDevice::I2cOpenMaster(unsigned char channel)
   if (*(I2cRefCount + channel) > 0)
   {
     //Channel Already Open, Increment Ref Count
-    *(I2cRefCount + channel) = *(I2cRefCount + channel) + 1;
+    //*(I2cRefCount + channel) = *(I2cRefCount + channel) + 1;
   }
   else
   {
     //Channel Not Yet Open, Open And Set Refcount = 1
-    Wire.begin();			//TODO ONLY SUPPORT ONE CHANNEL ATM
+    //Wire.begin();			//TODO ONLY SUPPORT ONE CHANNEL ATM
   }
   return 0;
 }
@@ -428,22 +428,27 @@ int LinxWiringDevice::I2cSetSpeed(unsigned char channel, unsigned long speed, un
 
 int LinxWiringDevice::I2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer)
 {
+  TwoWire *wire = &Wire;
+  if(channel == 1){
+    wire = &Wire1;
+  }
+
 #if ARDUINO_VERSION >= 100
-  Wire.beginTransmission(slaveAddress);
-  Wire.write(sendBuffer, numBytes);
+  wire->beginTransmission(slaveAddress);
+  wire->write(sendBuffer, numBytes);
 
   if (eofConfig == EOF_STOP)
   {
-    Wire.endTransmission(true);
+    wire->endTransmission(true);
   }
   else if (eofConfig == EOF_RESTART)
   {
-    Wire.endTransmission(false);
+    wire->endTransmission(false);
   }
   else
   {
     //EOF Not Supported, Stop Bus
-    Wire.endTransmission(true);
+    wire->endTransmission(true);
     return LI2C_EOF;
   }
   return L_OK;
@@ -453,26 +458,30 @@ int LinxWiringDevice::I2cWrite(unsigned char channel, unsigned char slaveAddress
     //EOF Not Supported, Stop Bus
     return LI2C_EOF;
   }
-  Wire.beginTransmission(slaveAddress);
+  wire->beginTransmission(slaveAddress);
   for (int i = 0; i < numBytes; i++)
   {
-    Wire.send(*(sendBuffer + i));
+    wire->send(*(sendBuffer + i));
   }
-  Wire.endTransmission();
+  wire->endTransmission();
   return 0;
 #endif
 }
 
 int LinxWiringDevice::I2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer)
 {
+  TwoWire *wire = &Wire;
+  if(channel == 1){
+    wire = &Wire1;
+  }
 #if ARDUINO_VERSION >= 100
   if (eofConfig == EOF_STOP)
   {
-    Wire.requestFrom(slaveAddress, numBytes, (uint8_t)1);
+    wire->requestFrom(slaveAddress, numBytes, (uint8_t)1);
   }
   else if (eofConfig == EOF_RESTART)
   {
-    Wire.requestFrom(slaveAddress, numBytes, (uint8_t)0);
+    wire->requestFrom(slaveAddress, numBytes, (uint8_t)0);
   }
   else
   {
@@ -485,12 +494,12 @@ int LinxWiringDevice::I2cRead(unsigned char channel, unsigned char slaveAddress,
     //EOF Not Supported
     return LI2C_EOF;
   }
-  Wire.requestFrom(slaveAddress, (uint8_t)numBytes);
+  wire->requestFrom(slaveAddress, (uint8_t)numBytes);
 #endif
 
   //Wait For Data, Potentially Timeout
   unsigned long tickCount = millis();
-  while (Wire.available() < numBytes)
+  while (wire->available() < numBytes)
   {
     if ( (millis() - tickCount) > timeout)
     {
@@ -502,9 +511,9 @@ int LinxWiringDevice::I2cRead(unsigned char channel, unsigned char slaveAddress,
   for (int i = 0; i < numBytes; i++)
   {
 #if ARDUINO_VERSION >= 100
-    *(recBuffer + i) = Wire.read();
+    *(recBuffer + i) = wire->read();
 #else
-    *(recBuffer + i) = Wire.receive();
+    *(recBuffer + i) = wire->receive();
 #endif
   }
   return L_OK;
