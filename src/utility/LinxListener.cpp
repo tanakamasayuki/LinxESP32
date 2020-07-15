@@ -125,8 +125,15 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
   if (command >= 0xFC00)
   {
     unsigned char numResponseBytes = 0;
-    status = customCommands[command - 0xFC00](commandPacketBuffer[1] - 7, commandPacketBuffer + 6, &numResponseBytes, responsePacketBuffer + 5);
-    PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numResponseBytes, status);
+    if (customCommands[command - 0xFC00] != NULL)
+    {
+      status = customCommands[command - 0xFC00](commandPacketBuffer[1] - 7, commandPacketBuffer + 6, &numResponseBytes, responsePacketBuffer + 5);
+      PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numResponseBytes, status);
+    }
+    else
+    {
+      StatusResponse(commandPacketBuffer, responsePacketBuffer, (int)L_FUNCTION_NOT_SUPPORTED);
+    }
   }
   else
   {
